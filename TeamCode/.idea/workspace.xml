@@ -20,6 +20,13 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -33,8 +40,13 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../androidSDK" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/org/firstinspires/ftc/teamcode" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\FTC_2020-2021\TeamCode\src\main\java\org\firstinspires\ftc\teamcode" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -114,25 +126,48 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="600" y="165" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1602799475656" />
-    <state width="1557" height="222" key="GridCell.Tab.0.bottom" timestamp="1602800930511">
+    <state width="1557" height="120" key="GridCell.Tab.0.bottom" timestamp="1604156217150">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="222" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1602800930511" />
-    <state width="1557" height="222" key="GridCell.Tab.0.center" timestamp="1602800930510">
+    <state width="1557" height="120" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1604156217150" />
+    <state width="1557" height="120" key="GridCell.Tab.0.center" timestamp="1604156217150">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="222" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1602800930510" />
-    <state width="1557" height="222" key="GridCell.Tab.0.left" timestamp="1602800930510">
+    <state width="1557" height="120" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1604156217150" />
+    <state width="1557" height="120" key="GridCell.Tab.0.left" timestamp="1604156217150">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="222" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1602800930510" />
-    <state width="1557" height="222" key="GridCell.Tab.0.right" timestamp="1602800930510">
+    <state width="1557" height="120" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1604156217150" />
+    <state width="1557" height="120" key="GridCell.Tab.0.right" timestamp="1604156217150">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="222" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1602800930510" />
-    <state x="301" y="72" key="SettingsEditor" timestamp="1602802076637">
+    <state width="1557" height="120" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1604156217150" />
+    <state x="301" y="72" key="SettingsEditor" timestamp="1603502013706">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="301" y="72" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1602802076637" />
+    <state x="301" y="72" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1603502013706" />
+    <state x="92" y="92" width="1416" height="676" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1604154345978">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="92" y="92" width="1416" height="676" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1600.860@0.0.1600.860" timestamp="1604154345978" />
+    <state x="456" y="195" key="run.anything.popup" timestamp="1603490748805">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="456" y="195" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1603490748805" />
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1603549446814">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1603549446814" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/firstinspires/ftc/teamcode/PurpleGyro.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

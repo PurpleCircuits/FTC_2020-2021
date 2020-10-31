@@ -40,10 +40,11 @@ import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name="TestRobotTeleOP", group="Linear Opmode")
-public class TestRobotTeleOP extends LinearOpMode {
+public class TestRobotTeleOP<pose> extends LinearOpMode {
+
+    private ElapsedTime runtime = new ElapsedTime();
 
     // Declare our hardware
-    private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private DcMotor theClawMotor = null;
@@ -52,6 +53,10 @@ public class TestRobotTeleOP extends LinearOpMode {
     private static final double SERVO_MIN_POS = 0.0; // Minimum rotational position
     private static final double SERVO_MAX_POS = 1.0; // Maximum rotational position
     private static final double SERVO_HALFWAY_POSITION = (SERVO_MAX_POS - SERVO_MIN_POS) / 2;
+
+    private int a = 0;
+    private int pose[] = new int[6];
+    private int savedPosition = 0;
 
     @Override
     public void runOpMode() {
@@ -64,11 +69,20 @@ public class TestRobotTeleOP extends LinearOpMode {
         theClawMotor = hardwareMap.get(DcMotor.class, "the_claw_motor");
         theClawServo = hardwareMap.get(Servo.class, "the_claw_servo");
 
+        // These are the encoder positions for the motor to go to in the array
+        pose[0]=0;
+        pose[1]=383;
+        pose[2]=553;
+        pose[3]=538;
+        pose[4]=724;
+        pose[5]=916;
+
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
         theClawMotor.setDirection(DcMotor.Direction.FORWARD);
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -97,10 +111,12 @@ public class TestRobotTeleOP extends LinearOpMode {
         }
 
         // Log the encoder value of the claw motor
-        telemetry.addData("Claw Motor Encoder: ", "%d", theClawMotor.getCurrentPosition());
+        telemetry.addData("Claw Motor Encoder: ", "%d %d" , theClawMotor.getCurrentPosition(), a);
+        telemetry.addData("A value:","%d",a);
 
         // This is a recreation of an exponential graph we decided to create
         // y = ax^2 with x being the joystick input and y being the motor power
+        /*
         float x = gamepad2.left_stick_y;
         telemetry.addData("Claw Joystick: ", "%.2f", x);
         if ( x > 0) {
@@ -112,6 +128,82 @@ public class TestRobotTeleOP extends LinearOpMode {
             telemetry.addData("Claw Power (Negative): ", "%.2f", power);
             theClawMotor.setPower(power);
         }
+         */
+
+        // Linear speed
+       double power = gamepad2.left_stick_y;
+        // Slow down the robot by factor 5 or 2 when right bumper pressed
+        if (!gamepad2.right_bumper) {
+            power = power/5;
+        }else{
+            power = power/2;
+        }
+        theClawMotor.setPower(power);
+
+        // Save the position of the encoder when bumper is pressed
+        if(gamepad2.left_bumper) {
+            savedPosition = theClawMotor.getTargetPosition();
+        }
+
+        // Loop to get to position
+        /*
+        if (gamepad2.left_bumper){
+            if (a<5){
+                ++a;qqqmnaqaa[
+            }else
+               a = 0;
+        }
+        theClawMotor.setTargetPosition(pose[a]);
+        theClawMotor.setPower(.5);
+        theClawMotor.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+        */
+        //sleep so bot does not over correct and to make sure one button press is one increment in 'a' value
+        sleep(100);
+
+/*
+       if (gamepad2.right_bumper){
+           a= ++a;
+       }
+        if (a==1){
+            theClawMotor.setTargetPosition(0);
+            theClawMotor.setPower(1);
+            theClawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        if  (a==2){
+            theClawMotor.setTargetPosition(383);
+            theClawMotor.setPower(1);
+            theClawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        if  (a==3){
+            theClawMotor.setTargetPosition(682);
+            theClawMotor.setPower(1);
+            theClawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        if (a==4){
+            theClawMotor.setTargetPosition(706);
+            theClawMotor.setPower(1);
+            theClawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        if (a==5){
+            theClawMotor.setTargetPosition(753);
+            theClawMotor.setPower(1);
+            theClawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        if (a==6){
+            theClawMotor.setTargetPosition(762);
+            theClawMotor.setPower(1);
+            theClawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        if (a==7){
+            theClawMotor.setTargetPosition(0);
+            theClawMotor.setPower(1);
+            theClawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            a=a-6;
+        }
+
+ */
+
+
     }
 
     private void driveAction() {
@@ -141,5 +233,6 @@ public class TestRobotTeleOP extends LinearOpMode {
         // Show the wheel power
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
     }
+
 
 }
