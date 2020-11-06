@@ -57,7 +57,6 @@ public class SensorsTest extends LinearOpMode {
         if (opModeIsActive()) {
             turnRight(180, 2);
         }
-       
         /*
         // Turn right 90 degrees
         if (opModeIsActive()) {

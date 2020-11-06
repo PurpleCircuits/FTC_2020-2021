@@ -94,6 +94,11 @@ public class TestRobotTeleOP<pose> extends LinearOpMode {
 
             clawAction();
             driveAction();
+            //Conveyer right stick #2
+            //intake switch#2 X button
+            //Launch#2 Y (add servo gate + conveyerAction)
+            //Open Claw#2 B
+
 
             telemetry.update();
         }
