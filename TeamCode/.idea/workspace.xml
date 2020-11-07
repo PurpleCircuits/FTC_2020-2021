@@ -7,6 +7,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="192.168.43.1:5555" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -37,9 +38,14 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="d9c70673b2991c4e" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-11-07T15:39:47.193Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../androidSDK" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/org/firstinspires/ftc/teamcode" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
   </component>
   <component name="RecentsManager">
@@ -55,7 +61,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FTC_2020-2021-TeamCode" type="AndroidRunConfigurationType" factoryName="Android App">
+    <configuration name="FTC_2020-2021-TeamCode" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="FTC_2020-2021-TeamCode" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -172,6 +178,10 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="317" y="162" key="#PSD" timestamp="1604764043709">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="317" y="162" key="#PSD/0.0.1600.860@0.0.1600.860" timestamp="1604764043709" />
     <state x="600" y="165" key="FileChooserDialogImpl" timestamp="1602799475656">
       <screen x="0" y="0" width="1600" height="860" />
     </state>

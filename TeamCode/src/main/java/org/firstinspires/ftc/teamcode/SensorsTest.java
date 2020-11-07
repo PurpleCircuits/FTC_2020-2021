@@ -36,7 +36,7 @@ public class SensorsTest extends LinearOpMode {
      */
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "L36Bridge");
+        telemetry.addData("Status", "SensorsTest");
         telemetry.update();
         initHardware();
 
@@ -49,13 +49,13 @@ public class SensorsTest extends LinearOpMode {
             driveFor(1, true);
         }
         if (opModeIsActive()) {
-            turnLeft(90, 2);
+            turnLeft(90, 5);
         }
         if (opModeIsActive()) {
             driveFor(1, true);
         }
         if (opModeIsActive()) {
-            turnRight(180, 2);
+            turnRight(180, 5);
         }
         /*
         // Turn right 90 degrees
@@ -94,8 +94,9 @@ public class SensorsTest extends LinearOpMode {
         leftDrive.setPower(0);
         rightDrive.setPower(0);
     }
+    //TODO the below method is almost exact duplicate of the turnRight, minus the degrees left and setPower calls. can this be broken up differently?
     public void turnLeft(double turnAngle, double timeoutS) {
-        sleep(500);
+        sleep(500);//TODO why?
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double speed=.5;
         double oldDegreesLeft=turnAngle;
@@ -104,17 +105,15 @@ public class SensorsTest extends LinearOpMode {
         double oldAngle=angles.firstAngle;
         if(targetHeading<-180) {targetHeading+=360;}
         if(targetHeading>180){targetHeading-=360;}
-        double degreesLeft =
-                ((int)(Math.signum(angles.firstAngle-targetHeading)+1)/2)
-                        *(360-Math.abs(angles.firstAngle-targetHeading))
-                        +
-                        (int)(Math.signum(targetHeading-angles.firstAngle)+1)
-                                /2*Math.abs(angles.firstAngle-targetHeading);
+        double degreesLeft = ((int)(Math.signum(angles.firstAngle-targetHeading)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))
+                        + (int)(Math.signum(targetHeading-angles.firstAngle)+1)/2*Math.abs(angles.firstAngle-targetHeading);
         runtime.reset();
-        while(opModeIsActive() &&
-                runtime.seconds() < timeoutS &&
-                degreesLeft>1&&
-                oldDegreesLeft-degreesLeft>=0) { //check to see if we overshot target
+        while(opModeIsActive()
+                && runtime.seconds() < timeoutS
+                && degreesLeft>1
+            // && oldDegreesLeft-degreesLeft>=0 //TODO possibly used as a 'stall' state - stuck up against something and stop turning
+        )
+        { //check to see if we overshot target
             scaledSpeed=degreesLeft/(100+degreesLeft)*speed;
             if(scaledSpeed>1){scaledSpeed=.1;}
 
@@ -124,13 +123,16 @@ public class SensorsTest extends LinearOpMode {
             //robot.rightFront.setPower(-1*scaledSpeed);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             oldDegreesLeft=degreesLeft;
-            degreesLeft = ((int)(Math.signum(angles.firstAngle-targetHeading)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))+(int)(Math.signum(targetHeading-angles.firstAngle)+1)/2*Math.abs(angles.firstAngle-targetHeading);
+            degreesLeft = ((int)(Math.signum(angles.firstAngle-targetHeading)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))
+                    + (int)(Math.signum(targetHeading-angles.firstAngle)+1)/2*Math.abs(angles.firstAngle-targetHeading);
+            //TODO below is questionable code based on the speed of CPU on the robot controller
             if(Math.abs(angles.firstAngle-oldAngle)<1){speed*=1.1;} //bump up speed to wheels in case robot stalls before reaching target
             oldAngle=angles.firstAngle;
         }
-        sleep(250); //small pause at end of turn
+        sleep(250); //small pause at end of turn TODO Why?
     }
 
+    //TODO see comments in turnLeft
     public void turnRight(double turnAngle, double timeoutS) {
         sleep(500);
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -141,17 +143,15 @@ public class SensorsTest extends LinearOpMode {
         double oldAngle=angles.firstAngle;
         if(targetHeading<-180) {targetHeading+=360;}
         if(targetHeading>180){targetHeading-=360;}
-        double degreesLeft =
-                ((int)(Math.signum(targetHeading-angles.firstAngle)+1)/2)
-                        *(360-Math.abs(angles.firstAngle-targetHeading))
-                        +
-                        (int)(Math.signum(angles.firstAngle-targetHeading)+1)
-                                /2*Math.abs(angles.firstAngle-targetHeading);
+        double degreesLeft = ((int)(Math.signum(targetHeading-angles.firstAngle)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))
+                        + (int)(Math.signum(angles.firstAngle-targetHeading)+1)/2*Math.abs(angles.firstAngle-targetHeading);
         runtime.reset();
         while(opModeIsActive() &&
                 runtime.seconds() < timeoutS &&
-                degreesLeft>1&&
-                oldDegreesLeft-degreesLeft>=0) { //check to see if we overshot target
+                degreesLeft>1
+                //&&oldDegreesLeft-degreesLeft>=0
+                )
+        { //check to see if we overshot target
             scaledSpeed=degreesLeft/(100+degreesLeft)*speed;
             if(scaledSpeed>1){scaledSpeed=.1;}
 
@@ -161,7 +161,8 @@ public class SensorsTest extends LinearOpMode {
             //robot.rightFront.setPower(-1*scaledSpeed);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             oldDegreesLeft=degreesLeft;
-            degreesLeft = ((int)(Math.signum(targetHeading-angles.firstAngle)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))+(int)(Math.signum(angles.firstAngle-targetHeading)+1)/2*Math.abs(angles.firstAngle-targetHeading);
+            degreesLeft = ((int)(Math.signum(targetHeading-angles.firstAngle)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))
+                    + (int)(Math.signum(angles.firstAngle-targetHeading)+1)/2*Math.abs(angles.firstAngle-targetHeading);
             if(Math.abs(angles.firstAngle-oldAngle)<1){speed*=1.1;} //bump up speed to wheels in case robot stalls before reaching target
             oldAngle=angles.firstAngle;
         }
