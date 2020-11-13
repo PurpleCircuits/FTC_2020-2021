@@ -96,13 +96,13 @@ public class SensorsTest extends LinearOpMode {
     }
     //TODO the below method is almost exact duplicate of the turnRight, minus the degrees left and setPower calls. can this be broken up differently?
     public void turnLeft(double turnAngle, double timeoutS) {
-        sleep(500);//TODO why?
+        //sleep(500);//TODO why?
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double speed=.5;
-        double oldDegreesLeft=turnAngle;
+        //double oldDegreesLeft=turnAngle;
         double scaledSpeed=speed;
         double targetHeading=angles.firstAngle+turnAngle;
-        double oldAngle=angles.firstAngle;
+        //double oldAngle=angles.firstAngle;
         if(targetHeading<-180) {targetHeading+=360;}
         if(targetHeading>180){targetHeading-=360;}
         double degreesLeft = ((int)(Math.signum(angles.firstAngle-targetHeading)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))
@@ -114,7 +114,7 @@ public class SensorsTest extends LinearOpMode {
             // && oldDegreesLeft-degreesLeft>=0 //TODO possibly used as a 'stall' state - stuck up against something and stop turning
         )
         { //check to see if we overshot target
-            scaledSpeed=degreesLeft/(100+degreesLeft)*speed;
+            scaledSpeed=degreesLeft/(10+degreesLeft)*speed;
             if(scaledSpeed>1){scaledSpeed=.1;}
 
             leftDrive.setPower(-1*scaledSpeed); //extra power to back wheels
@@ -122,25 +122,22 @@ public class SensorsTest extends LinearOpMode {
             //robot.leftFront.setPower(scaledSpeed);
             //robot.rightFront.setPower(-1*scaledSpeed);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            oldDegreesLeft=degreesLeft;
+            //oldDegreesLeft=degreesLeft;
             degreesLeft = ((int)(Math.signum(angles.firstAngle-targetHeading)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))
                     + (int)(Math.signum(targetHeading-angles.firstAngle)+1)/2*Math.abs(angles.firstAngle-targetHeading);
             //TODO below is questionable code based on the speed of CPU on the robot controller
-            if(Math.abs(angles.firstAngle-oldAngle)<1){speed*=1.1;} //bump up speed to wheels in case robot stalls before reaching target
-            oldAngle=angles.firstAngle;
+            //if(Math.abs(angles.firstAngle-oldAngle)<1){speed*=1.1;} //bump up speed to wheels in case robot stalls before reaching target
+            //oldAngle=angles.firstAngle;
         }
-        sleep(250); //small pause at end of turn TODO Why?
+        //sleep(250); //small pause at end of turn TODO Why?
     }
 
     //TODO see comments in turnLeft
     public void turnRight(double turnAngle, double timeoutS) {
-        sleep(500);
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double speed=.5;
-        double oldDegreesLeft=turnAngle;
         double scaledSpeed=speed;
         double targetHeading=angles.firstAngle+turnAngle;
-        double oldAngle=angles.firstAngle;
         if(targetHeading<-180) {targetHeading+=360;}
         if(targetHeading>180){targetHeading-=360;}
         double degreesLeft = ((int)(Math.signum(targetHeading-angles.firstAngle)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))
@@ -149,24 +146,17 @@ public class SensorsTest extends LinearOpMode {
         while(opModeIsActive() &&
                 runtime.seconds() < timeoutS &&
                 degreesLeft>1
-                //&&oldDegreesLeft-degreesLeft>=0
                 )
         { //check to see if we overshot target
-            scaledSpeed=degreesLeft/(100+degreesLeft)*speed;
+            scaledSpeed=degreesLeft/(10+degreesLeft)*speed;
             if(scaledSpeed>1){scaledSpeed=.1;}
 
-            leftDrive.setPower(scaledSpeed); //extra power to back wheels
-            rightDrive.setPower(-1*scaledSpeed); //due to extra weight
-            //robot.leftFront.setPower(scaledSpeed);
-            //robot.rightFront.setPower(-1*scaledSpeed);
+            leftDrive.setPower(scaledSpeed);
+            rightDrive.setPower(-1*scaledSpeed);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            oldDegreesLeft=degreesLeft;
             degreesLeft = ((int)(Math.signum(targetHeading-angles.firstAngle)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))
                     + (int)(Math.signum(angles.firstAngle-targetHeading)+1)/2*Math.abs(angles.firstAngle-targetHeading);
-            if(Math.abs(angles.firstAngle-oldAngle)<1){speed*=1.1;} //bump up speed to wheels in case robot stalls before reaching target
-            oldAngle=angles.firstAngle;
         }
-        sleep(250); //small pause at end of turn
     }
 
     /**

@@ -49,10 +49,12 @@ public class TestRobotTeleOP<pose> extends LinearOpMode {
     private DcMotor rightDrive = null;
     private DcMotor theClawMotor = null;
     private Servo theClawServo = null;
+    private DcMotor intake = null;
 
     private static final double SERVO_MIN_POS = 0.0; // Minimum rotational position
     private static final double SERVO_MAX_POS = 1.0; // Maximum rotational position
     private static final double SERVO_HALFWAY_POSITION = (SERVO_MAX_POS - SERVO_MIN_POS) / 2;
+    private boolean isIntakeOn = true;
 
     private int a = 0;
     private int pose[] = new int[6];
@@ -64,19 +66,20 @@ public class TestRobotTeleOP<pose> extends LinearOpMode {
         telemetry.update();
 
         // Initialize the hardware variables
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
+        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         theClawMotor = hardwareMap.get(DcMotor.class, "the_claw_motor");
         theClawServo = hardwareMap.get(Servo.class, "the_claw_servo");
+        intake = hardwareMap.get(DcMotor.class, "toggle_intake");
 
         // These are the encoder positions for the motor to go to in the array
-        pose[0]=0;
+        /*pose[0]=0;
         pose[1]=383;
         pose[2]=553;
         pose[3]=538;
         pose[4]=724;
         pose[5]=916;
-
+        */
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -94,13 +97,24 @@ public class TestRobotTeleOP<pose> extends LinearOpMode {
 
             clawAction();
             driveAction();
+            intakeAction();
             //Conveyer right stick #2
-            //intake switch#2 X button
             //Launch#2 Y (add servo gate + conveyerAction)
             //Open Claw#2 B
 
 
             telemetry.update();
+        }
+    }
+    private void intakeAction() {
+        if (gamepad2.x) {
+           isIntakeOn = !isIntakeOn;
+        }
+        if (isIntakeOn){
+            intake.setPower(1);
+        }
+        else {
+            intake.setPower(0);
         }
     }
 
@@ -116,8 +130,8 @@ public class TestRobotTeleOP<pose> extends LinearOpMode {
         }
 
         // Log the encoder value of the claw motor
-        telemetry.addData("Claw Motor Encoder: ", "%d %d" , theClawMotor.getCurrentPosition(), a);
-        telemetry.addData("A value:","%d",a);
+        telemetry.addData("Claw Motor Encoder: ", "%d %d", theClawMotor.getCurrentPosition(), a);
+        telemetry.addData("A value:", "%d", a);
 
         // This is a recreation of an exponential graph we decided to create
         // y = ax^2 with x being the joystick input and y being the motor power
@@ -136,17 +150,17 @@ public class TestRobotTeleOP<pose> extends LinearOpMode {
          */
 
         // Linear speed
-       double power = gamepad2.left_stick_y;
+        double power = gamepad2.left_stick_y;
         // Slow down the robot by factor 5 or 2 when right bumper pressed
         if (!gamepad2.right_bumper) {
-            power = power/5;
-        }else{
-            power = power/2;
+            power = power / 5;
+        } else {
+            power = power / 2;
         }
         theClawMotor.setPower(power);
 
         // Save the position of the encoder when bumper is pressed
-        if(gamepad2.left_bumper) {
+        if (gamepad2.left_bumper) {
             savedPosition = theClawMotor.getTargetPosition();
         }
 
@@ -213,31 +227,30 @@ public class TestRobotTeleOP<pose> extends LinearOpMode {
 
     private void driveAction() {
         // Setup a variable for each drive wheel to save power level for telemetry
-        double leftPower;
-        double rightPower;
+        double leftPower = 0;
+        double rightPower = 0;
 
-        // Choose to drive using either Tank Mode, or POV Mode
-        // Comment out the method that's not used.
-
-        // POV Mode uses left stick to go forward, and right stick to turn.
-        // - This uses basic math to combine motions and is easier to drive straight.
-        double drive = -gamepad1.left_stick_y;
-        double turn  =  gamepad1.right_stick_x;
-        leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-
-        // Tank Mode uses one stick to control each wheel.
-        // - This requires no math, but it is hard to drive forward slowly and keep straight.
-        // leftPower  = -gamepad1.left_stick_y ;
-        // rightPower = -gamepad1.right_stick_y ;
-
+        if (gamepad1.left_bumper) {
+            // Set to tank mode
+            leftPower = -gamepad1.left_stick_y;
+            rightPower = -gamepad1.right_stick_y;
+        } else {
+            // POV Mode uses left stick to go forward, and right stick to turn.
+            // - This uses basic math to combine motions and is easier to drive straight.
+            double drive = -gamepad1.left_stick_y;
+            double turn = gamepad1.right_stick_x;
+            leftPower = Range.clip(drive + turn, -1.0, 1.0);
+            rightPower = Range.clip(drive - turn, -1.0, 1.0);
+        }
+        // Slow down the robot by factor 5
+        if (!gamepad1.right_bumper) {
+            leftPower = leftPower / 3;
+            rightPower = rightPower / 3;
+        }
         // Send calculated power to wheels
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
-
-        // Show the wheel power
+        // Telemetry wont be updated until update is called
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
     }
-
-
 }
